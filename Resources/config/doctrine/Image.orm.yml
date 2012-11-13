@@ -1,0 +1,69 @@
+Zorbus\GalleryBundle\Entity\Image:
+    type: entity
+    table: zorbus_gallery_image
+    repositoryClass: Zorbus\GalleryBundle\Entity\ImageRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 255
+            nullable: true
+        thumbnail:
+            type: string
+            length: 255
+            nullable: true
+        image:
+            type: string
+            length: 255
+            nullable: false
+        enabled:
+            type: boolean
+            default: true
+            nullable: true
+        position:
+            type: integer
+            default: 1
+            nullable: true
+            gedmo:
+                - sortablePosition
+        slug:
+            type: string
+            length: 255
+            nullable: true
+            gedmo:
+                slug:
+                    separator: '-'
+                    style: default
+                    fields:
+                        - title
+        created_at:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: create
+        updated_at:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    lifecycleCallbacks:
+        prePersist: [preImageUpload, preThumbnailUpload]
+        preUpdate: [preImageUpload, preThumbnailUpload]
+        postPersist: [postImageUpload, postThumbnailUpload]
+        postUpdate: [postImageUpload, postThumbnailUpload]
+        postRemove: [postRemove]
+    manyToOne:
+        gallery:
+            targetEntity: Zorbus\GalleryBundle\Entity\Gallery
+            inversedBy: images
+            joinColumn:
+                name: gallery_id
+                referencedColumnName: id
+                onDelete: CASCADE
+            gedmo:
+                - sortableGroup

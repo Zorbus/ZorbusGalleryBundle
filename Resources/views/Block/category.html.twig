@@ -1,0 +1,14 @@
+<div class="row-fluid">
+    <div class="well">
+        <h2>{{ category }}</h2>
+        <div class="tab-content">
+            <ul>
+            {% for gallery in category.galleries %}
+                <li>{{ gallery }}</li>
+            {% else %}
+                <li>No galleries.</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

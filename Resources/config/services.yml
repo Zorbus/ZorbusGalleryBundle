@@ -1,0 +1,50 @@
+parameters:
+    zorbus_gallery.gallery.admin.class: Zorbus\GalleryBundle\Admin\GalleryAdmin
+    zorbus_gallery.image.admin.class: Zorbus\GalleryBundle\Admin\ImageAdmin
+    zorbus_gallery.category.admin.class: Zorbus\GalleryBundle\Admin\CategoryAdmin
+
+    zorbus_gallery.gallery.entity.class: Zorbus\GalleryBundle\Entity\Gallery
+    zorbus_gallery.image.entity.class: Zorbus\GalleryBundle\Entity\Image
+    zorbus_gallery.category.entity.class: Zorbus\GalleryBundle\Entity\Category
+
+    zorbus_gallery.gallery.controller.class: SonataAdminBundle:CRUD
+    zorbus_gallery.image.controller.class: SonataAdminBundle:CRUD
+    zorbus_gallery.category.controller.class: SonataAdminBundle:CRUD
+
+    zorbus_gallery.block.gallery.class: Zorbus\GalleryBundle\Model\BlockGalleryConfig
+    zorbus_gallery.block.category.class: Zorbus\GalleryBundle\Model\BlockCategoryConfig
+
+services:
+    zorbus_gallery.gallery.admin:
+        class: %zorbus_gallery.gallery.admin.class%
+        arguments: [~, %zorbus_gallery.gallery.entity.class%, %zorbus_gallery.gallery.controller.class%]
+        calls:
+            - [setTranslationDomain, [GalleryBundle]]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Galleries, label: Galleries }
+    zorbus_gallery.image.admin:
+        class: %zorbus_gallery.image.admin.class%
+        arguments: [~, %zorbus_gallery.image.entity.class%, %zorbus_gallery.image.controller.class%]
+        calls:
+            - [setTranslationDomain, [GalleryBundle]]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Galleries, label: Images }
+    zorbus_gallery.category.admin:
+        class: %zorbus_gallery.category.admin.class%
+        arguments: [~, %zorbus_gallery.category.entity.class%, %zorbus_gallery.category.controller.class%]
+        calls:
+            - [setTranslationDomain, [GalleryBundle]]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Galleries, label: Categories }
+    zorbus_gallery.block.gallery:
+        class: %zorbus_gallery.block.gallery.class%
+        scope: prototype
+        arguments: ['@zorbus_block.block.admin', '@form.factory', '@http_kernel']
+        tags:
+            - { name: zorbus_block.block, category: Galleries }
+    zorbus_gallery.block.category:
+        class: %zorbus_gallery.block.category.class%
+        scope: prototype
+        arguments: ['@zorbus_block.block.admin', '@form.factory', '@http_kernel']
+        tags:
+            - { name: zorbus_block.block, category: Galleries }

@@ -1,0 +1,12 @@
+<div class="row-fluid">
+    <div class="well">
+        <h2>{{ gallery }}</h2>
+        <div class="tab-content">
+            {% for image in gallery.images %}
+                <img src="{{ asset(image.getWebPath(image.image)) }}" alt="{{ image.title }}">
+            {% else %}
+                <p class="alert alert-error">No images.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>

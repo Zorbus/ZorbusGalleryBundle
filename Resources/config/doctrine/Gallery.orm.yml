@@ -1,0 +1,87 @@
+Zorbus\GalleryBundle\Entity\Gallery:
+    type: entity
+    table: zorbus_gallery_gallery
+    repositoryClass: Zorbus\GalleryBundle\Entity\GalleryRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 255
+            nullable: false
+        resume:
+            type: text
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        local:
+            type: string
+            length: 255
+            nullable: true
+        period:
+            type: string
+            length: 255
+            nullable: true
+        image:
+            type: string
+            length: 255
+            nullable: true
+        position:
+            type: integer
+            default: 1
+            nullable: true
+            gedmo:
+                - sortablePosition
+        lang:
+            type: string
+            length: 5
+            nullable: true
+            default: en_US
+        slug:
+            type: string
+            length: 255
+            gedmo:
+                slug:
+                    separator: '-'
+                    style: default
+                    fields:
+                        - title
+        enabled:
+            type: boolean
+            default: true
+            nullable: true
+        created_at:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated_at:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    lifecycleCallbacks:
+        prePersist: [preImageUpload]
+        preUpdate: [preImageUpload]
+        postPersist: [postImageUpload]
+        postUpdate: [postImageUpload]
+        postRemove: [postRemove]
+    oneToMany:
+        images:
+            targetEntity: Zorbus\GalleryBundle\Entity\Image
+            mappedBy: gallery
+            orderBy:
+                position: ASC
+    manyToOne:
+        category:
+            targetEntity: Zorbus\GalleryBundle\Entity\Category
+            inversedBy: galleries
+            joinColumn:
+                name: category_id
+                referencedColumnName: id
+                onDelete: CASCADE
+            gedmo:
+                - sortableGroup
