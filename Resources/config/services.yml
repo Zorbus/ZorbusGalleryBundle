@@ -41,10 +41,10 @@ services:
         scope: prototype
         arguments: ['@zorbus_block.block.admin', '@form.factory', '@http_kernel']
         tags:
-            - { name: zorbus_block.block, category: Galleries }
+            - { name: zorbus_block.block, category: Gallery }
     zorbus_gallery.block.category:
         class: %zorbus_gallery.block.category.class%
         scope: prototype
         arguments: ['@zorbus_block.block.admin', '@form.factory', '@http_kernel']
         tags:
-            - { name: zorbus_block.block, category: Galleries }
+            - { name: zorbus_block.block, category: Gallery }
